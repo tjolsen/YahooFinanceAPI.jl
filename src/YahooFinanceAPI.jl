@@ -10,11 +10,11 @@ end
 
 #include library files
 include("yahoo_finance_api/types.jl")
-
+include("yahoo_finance_api/apiCalls.jl")
 
 
 # export
-
+export HistoricalData, fetchHistoricalData
 
 
 
