@@ -1,6 +1,7 @@
 using HTTPClient.HTTPC
 using Dates
 
+# =====================================================================
 function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date, 
                              toDate=Dates.today()::Dates.Date, freq="d")
     
@@ -36,6 +37,7 @@ function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date,
     return HD
 end
 
+# =====================================================================
 function fetchQuotes(syms, props)
     urlbase = "http://download.finance.yahoo.com/d/quotes.csv?s="
     if (isa(syms, Array))
@@ -68,4 +70,21 @@ function fetchQuotes(syms, props)
     table = readdlm(IOBuffer(text), ',', Any)
     
     return table;
+end
+
+
+# =====================================================================
+function fetchSectors(sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u")
+    
+    url = "http://biz.yahoo.com/p/csv/s_$sortBy$sortDir.csv"
+    
+    page = HTTPC.get(url)
+    text = ASCIIString(page.body.data)
+    if (text[1] == '<')
+        error("Bad sector pull")
+    end
+    
+    table = readdlm(IOBuffer(text), ',', Any);
+
+    return table[1:end-1,:];
 end

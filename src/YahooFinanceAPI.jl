@@ -1,10 +1,27 @@
 module YahooFinanceAPI
 
 # QuoteProperties submodule
+# Used for the Quotes API
 # see online documentation of Yahoo API for full list
 # https://code.google.com/p/yahoo-finance-managed/wiki/enumQuoteProperty
 module QuoteProperties
 include("yahoo_finance_api/QuoteProperties.jl");
+end
+
+# MarketQuoteProperties submodule
+# used for Industry and Sector APIs
+# see online documentation of Yahoo API for full list
+# https://code.google.com/p/yahoo-finance-managed/wiki/enumMarketQuoteProperties
+module MarketQuoteProperties
+include("yahoo_finance_api/MarketQuoteProperties.jl");
+end
+
+# IndustryCodes submodule
+# Used for using the "Companies" API
+# See full list source at
+# http://pastie.org/6419646#205
+module IndustryCodes
+include("yahoo_finance_api/IndustryCodes.jl")
 end
 
 
@@ -16,6 +33,7 @@ include("yahoo_finance_api/apiCalls.jl")
 # export
 export HistoricalData, fetchHistoricalData
 export QuoteProperties, fetchQuotes
-
+export IndustryCodes, MarketQuoteProperties
+export fetchSectors
 
 end
