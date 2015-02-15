@@ -1,0 +1,9 @@
+Basic_Materials = 1
+Conglomerates = 2
+Consumer_Goods = 3
+Financial = 4
+Healthcare = 5
+Industrial_Goods = 6
+Services = 7
+Technology = 8
+Utilities = 9

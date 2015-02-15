@@ -85,6 +85,39 @@ function fetchSectors(sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u"
     end
     
     table = readdlm(IOBuffer(text), ',', Any);
+    
+    # table from Yahoo is "null terminated", so return all but last line
+    return table[1:end-1,:];
+end
 
+# =====================================================================
+function fetchIndustries(sectorNum, sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u")
+    
+    url = "http://biz.yahoo.com/p/csv/$(sectorNum)$sortBy$sortDir.csv";
+    println(url)
+    page = HTTPC.get(url)
+    text = ASCIIString(page.body.data)
+    if (text[1] == '<')
+        error("Bad Industries pull")
+    end
+
+    table = readdlm(IOBuffer(text), ',', Any);
+    
+    return table[1:end-1,:];
+end
+
+# =====================================================================
+function fetchCompanies(industryNum, sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u")
+    
+    url = "http://biz.yahoo.com/p/csv/$(industryNum)$sortBy$sortDir.csv";
+    println(url)
+    page = HTTPC.get(url)
+    text = ASCIIString(page.body.data)
+    if (text[1] == '<')
+        error("Bad Companies pull")
+    end
+
+    table = readdlm(IOBuffer(text), ',', Any);
+    
     return table[1:end-1,:];
 end

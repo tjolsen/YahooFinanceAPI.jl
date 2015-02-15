@@ -24,6 +24,12 @@ module IndustryCodes
 include("yahoo_finance_api/IndustryCodes.jl")
 end
 
+# Sectors submodule
+# Used Industries API. Must select the sector number
+module Sectors
+include("yahoo_finance_api/Sectors.jl")
+end
+
 
 #include library files
 include("yahoo_finance_api/types.jl")
@@ -35,5 +41,6 @@ export HistoricalData, fetchHistoricalData
 export QuoteProperties, fetchQuotes
 export IndustryCodes, MarketQuoteProperties
 export fetchSectors
+export Sectors, fetchIndustries, fetchCompanies
 
 end
