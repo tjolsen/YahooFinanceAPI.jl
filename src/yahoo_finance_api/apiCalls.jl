@@ -18,6 +18,11 @@ function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date,
 
     page = HTTPC.get(url);
     text = ASCIIString(page.body.data)
+    
+    if (text[1] == '<')
+        error("Bad data pull for $sym")
+    end
+    
     table = readdlm(IOBuffer(text), ',', Any)
 
     HD = HistoricalData(sym, [Dates.Date(s) for s in table[end:-1:2,1]],
