@@ -15,7 +15,7 @@ include("yahoo_finance_api/apiCalls.jl")
 
 # export
 export HistoricalData, fetchHistoricalData
-
+export QuoteProperties, fetchQuotes
 
 
 end

@@ -20,7 +20,7 @@ function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date,
     text = ASCIIString(page.body.data)
     
     if (text[1] == '<')
-        error("Bad data pull for $sym")
+        error("Bad historical data pull for $sym")
     end
     
     table = readdlm(IOBuffer(text), ',', Any)
@@ -34,4 +34,38 @@ function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date,
                         float64(table[end:-1:2,7]))
     
     return HD
+end
+
+function fetchQuotes(syms, props)
+    urlbase = "http://download.finance.yahoo.com/d/quotes.csv?s="
+    if (isa(syms, Array))
+        symspart = "";
+        for i=1:length(syms)-1
+            symspart = "$symspart$(syms[i]),"
+        end
+        symspart = "$symspart$(syms[length(syms)])"
+    else
+        symspart = syms;
+    end
+    
+    if (isa(props, Array))
+        propspart = "";
+        for i=1:length(props)
+            propspart = "$propspart$(props[i])"
+        end
+    else
+        propspart = props
+    end
+    
+    url = "$urlbase$symspart&f=$propspart&e=.csv"
+
+    page = HTTPC.get(url)
+    text = ASCIIString(page.body.data)
+    if (text[1] == '<')
+        error("Bad quotes pull")
+    end
+    
+    table = readdlm(IOBuffer(text), ',', Any)
+    
+    return table;
 end
