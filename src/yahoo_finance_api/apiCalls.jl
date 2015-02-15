@@ -1,5 +1,6 @@
 using HTTPClient.HTTPC
 using Dates
+using Gumbo
 
 # =====================================================================
 function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date, 
@@ -126,8 +127,28 @@ end
 function fetchRSS(symbol::ASCIIString, locale::ASCIIString = "en-us")
     
     url = "http://feeds.finance.yahoo.com/rss/2.0/headline?s=$symbol&region=$(locale[4:end])&lang=$locale"
-    println(url)
+
     page = HTTPC.get(url)
     text = ASCIIString(page.body.data)
-    return text;
+    
+    # parse html with gumbo package
+    doc = parsehtml(text)
+    
+    # prepare empty Array{Any,1} for return
+    articles = {}
+    
+    # Parse returned html document
+    chan = doc.root.children[2].children[1].children[1]
+    for ch in chan.children
+        if(isa(ch, Gumbo.HTMLElement{:item}))
+            # This condition handles the event where no page is found
+            if (isa(ch.children[1],Gumbo.HTMLElement{:title}) && isa(ch.children[3],HTMLText))
+                title = ch.children[1].children[1].text
+                link = ch.children[3].text
+                push!(articles, (title, link))
+            end
+        end
+    end
+    
+    return articles;
 end
