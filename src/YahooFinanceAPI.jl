@@ -30,6 +30,11 @@ module Sectors
 include("yahoo_finance_api/Sectors.jl")
 end
 
+# Localization submodule
+# used to localize RSS feed
+module Localization
+include("yahoo_finance_api/Localization.jl")
+end
 
 #include library files
 include("yahoo_finance_api/types.jl")
@@ -42,5 +47,6 @@ export QuoteProperties, fetchQuotes
 export IndustryCodes, MarketQuoteProperties
 export fetchSectors
 export Sectors, fetchIndustries, fetchCompanies
+export Localization, fetchRSS
 
 end

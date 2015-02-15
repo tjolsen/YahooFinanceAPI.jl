@@ -121,3 +121,13 @@ function fetchCompanies(industryNum, sortBy::ASCIIString = "coname", sortDir::AS
     
     return table[1:end-1,:];
 end
+
+# =====================================================================
+function fetchRSS(symbol::ASCIIString, locale::ASCIIString = "en-us")
+    
+    url = "http://feeds.finance.yahoo.com/rss/2.0/headline?s=$symbol&region=$(locale[4:end])&lang=$locale"
+    println(url)
+    page = HTTPC.get(url)
+    text = ASCIIString(page.body.data)
+    return text;
+end
