@@ -1,5 +1,7 @@
 module YahooFinanceAPI
 
+#using Dates
+
 # QuoteProperties submodule
 # Used for the Quotes API
 # see online documentation of Yahoo API for full list

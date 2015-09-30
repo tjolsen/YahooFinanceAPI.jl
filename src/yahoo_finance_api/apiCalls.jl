@@ -1,5 +1,5 @@
 using HTTPClient.HTTPC
-using Dates
+#using Dates
 using Gumbo
 
 # =====================================================================
@@ -135,7 +135,7 @@ function fetchRSS(symbol::ASCIIString, locale::ASCIIString = "en-us")
     doc = parsehtml(text)
     
     # prepare empty Array{Any,1} for return
-    articles = {}
+    articles = []
     
     # Parse returned html document
     chan = doc.root.children[2].children[1].children[1]

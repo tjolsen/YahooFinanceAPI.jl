@@ -1,9 +1,7 @@
-using Dates
-
 type Quotes
     name::ASCIIString
     symbols::ASCIIString
-    properties::Array{(ASCIIString,Any),1}
+    properties::Array{Tuple{ASCIIString,Any},1}
 end
 
 type HistoricalData
