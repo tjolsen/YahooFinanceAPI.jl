@@ -3,7 +3,7 @@ using HTTPClient.HTTPC
 using Gumbo
 
 # =====================================================================
-function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date, 
+function fetchHistoricalData(sym::String, fromDate::Dates.Date, 
                              toDate=Dates.today()::Dates.Date, freq="d")
     
     fromY = Dates.year(fromDate);
@@ -19,7 +19,7 @@ function fetchHistoricalData(sym::ASCIIString, fromDate::Dates.Date,
     url = "$url1$url2"
 
     page = HTTPC.get(url);
-    text = ASCIIString(page.body.data)
+    text = String(page.body.data)
     
     if (text[1] == '<')
         error("Bad historical data pull for $sym")
@@ -63,7 +63,7 @@ function fetchQuotes(syms, props)
     url = "$urlbase$symspart&f=$propspart&e=.csv"
 
     page = HTTPC.get(url)
-    text = ASCIIString(page.body.data)
+    text = String(page.body.data)
     if (text[1] == '<')
         error("Bad quotes pull")
     end
@@ -75,12 +75,12 @@ end
 
 
 # =====================================================================
-function fetchSectors(sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u")
+function fetchSectors(sortBy::String = "coname", sortDir::String = "u")
     
     url = "http://biz.yahoo.com/p/csv/s_$sortBy$sortDir.csv"
     
     page = HTTPC.get(url)
-    text = ASCIIString(page.body.data)
+    text = String(page.body.data)
     if (text[1] == '<')
         error("Bad sector pull")
     end
@@ -92,12 +92,12 @@ function fetchSectors(sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u"
 end
 
 # =====================================================================
-function fetchIndustries(sectorNum, sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u")
+function fetchIndustries(sectorNum, sortBy::String = "coname", sortDir::String = "u")
     
     url = "http://biz.yahoo.com/p/csv/$(sectorNum)$sortBy$sortDir.csv";
     println(url)
     page = HTTPC.get(url)
-    text = ASCIIString(page.body.data)
+    text = String(page.body.data)
     if (text[1] == '<')
         error("Bad Industries pull")
     end
@@ -108,12 +108,12 @@ function fetchIndustries(sectorNum, sortBy::ASCIIString = "coname", sortDir::ASC
 end
 
 # =====================================================================
-function fetchCompanies(industryNum, sortBy::ASCIIString = "coname", sortDir::ASCIIString = "u")
+function fetchCompanies(industryNum, sortBy::String = "coname", sortDir::String = "u")
     
     url = "http://biz.yahoo.com/p/csv/$(industryNum)$sortBy$sortDir.csv";
     println(url)
     page = HTTPC.get(url)
-    text = ASCIIString(page.body.data)
+    text = String(page.body.data)
     if (text[1] == '<')
         error("Bad Companies pull")
     end
@@ -124,12 +124,12 @@ function fetchCompanies(industryNum, sortBy::ASCIIString = "coname", sortDir::AS
 end
 
 # =====================================================================
-function fetchRSS(symbol::ASCIIString, locale::ASCIIString = "en-us")
+function fetchRSS(symbol::String, locale::String = "en-us")
     
     url = "http://feeds.finance.yahoo.com/rss/2.0/headline?s=$symbol&region=$(locale[4:end])&lang=$locale"
 
     page = HTTPC.get(url)
-    text = ASCIIString(page.body.data)
+    text = String(page.body.data)
     
     # parse html with gumbo package
     doc = parsehtml(text)

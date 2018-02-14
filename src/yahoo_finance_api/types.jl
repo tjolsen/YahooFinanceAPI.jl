@@ -1,11 +1,11 @@
 type Quotes
-    name::ASCIIString
-    symbols::ASCIIString
-    properties::Array{Tuple{ASCIIString,Any},1}
+    name::String
+    symbols::String
+    properties::Array{Tuple{String,Any},1}
 end
 
 type HistoricalData
-    symbol::ASCIIString
+    symbol::String
     dates::Array{Dates.Date,1}
     open::Array{Float64,1}
     high::Array{Float64,1}
